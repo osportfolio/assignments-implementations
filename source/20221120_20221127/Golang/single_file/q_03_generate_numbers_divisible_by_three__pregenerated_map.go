@@ -208,8 +208,6 @@ func main() {
 //   s_inputs := [] string {
 //     "23" }
 
-//   var kk int
-  
   for _, str := range s_inputs {
     s_out := solution( str )
     fmt.Println( 

@@ -55,7 +55,7 @@ namespace os_core
             } // lambda
         );
         /*
-         * Computed 2checker_current' in raw form.
+         * Computed 'checker_current' in raw form.
          * */
         
         local_set_type  checker_current__set
