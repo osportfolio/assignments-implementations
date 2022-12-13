@@ -22,6 +22,8 @@ StringArray_initialize
   container_ptr->length
     = 0;
     
+  // printf( "StringArray object created.\n" );
+    
   return container_ptr;
 }
 
@@ -38,6 +40,8 @@ StringArray_destroy
   
   free( container_ptr->content_ptr_ptr );
   free( container_ptr );
+  
+  // printf( "StringArray object destroyed.\n" );
 }
 
 /*
