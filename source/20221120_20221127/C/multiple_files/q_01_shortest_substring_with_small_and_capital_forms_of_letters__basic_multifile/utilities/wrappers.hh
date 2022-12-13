@@ -85,6 +85,9 @@ public:
   {
     // Custom deleter takes care of destruction.
   }
+  
+  LocalClassTypeName             (const  LocalClassTypeName &)  = delete;
+  LocalClassTypeName &  operator=(const  LocalClassTypeName &)  = delete;
 
 // member functions
 public:
