@@ -13,12 +13,41 @@
 
 #include <vector>
 #include <string>
+#include <exception>
 
 namespace os_core
 {
 namespace dir_utils
 {
 
+class Dir_IO_Exception
+:
+public
+std::exception
+{
+private:
+  std::string
+    msg_;
+    
+public:
+  Dir_IO_Exception
+  (
+    const std::string  path_dir
+  )
+  :
+  msg_
+    ( 
+        std::string( "Directory Path Not Found :\n  " ) 
+      + path_dir
+    )
+  {}
+  
+  virtual const char* what() const throw()
+  {
+    return msg_.c_str();
+  } 
+}; // class Dir_IO_Exception
+  
 class FilesDirsExtractor
 {
 // typedefs

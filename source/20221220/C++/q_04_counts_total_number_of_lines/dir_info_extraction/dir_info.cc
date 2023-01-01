@@ -35,6 +35,9 @@ namespace dir_utils
     
     DIR * dir = 
       opendir( path_dir_.c_str() );
+      
+    if ( ! dir )
+      throw  Dir_IO_Exception( path_dir_ );
 
     struct dirent * entry = 
       readdir( dir );

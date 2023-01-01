@@ -10,9 +10,11 @@
  *   Dec 26, 2022 / Mon
  * */
 
+#include "dir_info.hh"
 #include "line_counter.hh"
 
 #include <cstdlib>
+#include <iostream>
 
 int
 main( int argc, char *argv[] )
@@ -31,15 +33,23 @@ main( int argc, char *argv[] )
   DirTreeBuilder::flag_breadth_first_search = false;
   */
   
-  DirTreeBuilder  obj_dtb( path_topmost );
-  obj_dtb
-    .build();
-    
-  MassCounterOfLines obj_mcol ( & obj_dtb );
-  obj_mcol
-    .setup_data_structures()
-    .count()
-    .report();
+  try
+  {
+    DirTreeBuilder  obj_dtb( path_topmost );
+    obj_dtb
+      .build();
+      
+    MassCounterOfLines obj_mcol ( & obj_dtb );
+    obj_mcol
+      .setup_data_structures()
+      .count()
+      .report();
+  }
+  catch ( Dir_IO_Exception &  obj_exc )
+  {
+    cout << endl << obj_exc.what() << endl;
+    return 1;
+  }
   
   return 0;
 }

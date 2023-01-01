@@ -13,14 +13,17 @@ include config.mk
 obj_subdir := \
   _ignore_obj/dir_info_extraction/dir_info.cc.o \
   _ignore_obj/line_counter/line_counter.cc.o \
+  _ignore_obj/line_counter/line_counter__with_threads.cc.o \
   _ignore_obj/tree_builder/tree_builder.cc.o
 
 obj_topdir := \
-  _ignore_obj/./line_count_report.cc.o \
+  _ignore_obj/./line_count_report__with_OpenMP.cc.o \
+  _ignore_obj/./line_count_report__with_threads.cc.o \
   _ignore_obj/./list_directory_contents.cc.o
 
 exe_topdir := \
-  _ignore_obj/./line_count_report.cc.elf \
+  _ignore_obj/./line_count_report__with_OpenMP.cc.elf \
+  _ignore_obj/./line_count_report__with_threads.cc.elf \
   _ignore_obj/./list_directory_contents.cc.elf
 
 default : $(exe_topdir)  force_look
@@ -126,11 +129,17 @@ clean : force_look
 
 .NOTPARALLEL :
 
-run__line_count_report.cc.elf : force_look
-	@_ignore_obj/./line_count_report.cc.elf
+run__line_count_report__with_OpenMP.cc.elf : force_look
+	@_ignore_obj/./line_count_report__with_OpenMP.cc.elf
 
-ldd__line_count_report.cc.elf : force_look
-	@ldd _ignore_obj/./line_count_report.cc.elf
+ldd__line_count_report__with_OpenMP.cc.elf : force_look
+	@ldd _ignore_obj/./line_count_report__with_OpenMP.cc.elf
+
+run__line_count_report__with_threads.cc.elf : force_look
+	@_ignore_obj/./line_count_report__with_threads.cc.elf
+
+ldd__line_count_report__with_threads.cc.elf : force_look
+	@ldd _ignore_obj/./line_count_report__with_threads.cc.elf
 
 run__list_directory_contents.cc.elf : force_look
 	@_ignore_obj/./list_directory_contents.cc.elf

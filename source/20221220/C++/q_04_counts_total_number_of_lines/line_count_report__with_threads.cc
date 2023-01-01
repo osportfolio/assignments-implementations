@@ -1,18 +1,21 @@
 /*
- * Builds tree and prints information on
- * a directory hierarchy, with the files
- * and subdirectories residing in it.
+ * Builds the tree corresponding to a
+ * directory hierarchy, and counts the
+ * total number of lines in the files
+ * residing in the hierarchy.
  * */
 
 /*
  * Worked on this code on
- *   Dec 26, 2022 / Mon
+ *   Jan  1, 2023 / Sun
  * */
 
 #include "dir_info.hh"
-#include "tree_builder.hh"
+#include "line_counter__with_threads.hh"
 
+#include <cstdlib>
 #include <iostream>
+#include <memory>
 
 int
 main( int argc, char *argv[] )
@@ -26,23 +29,30 @@ main( int argc, char *argv[] )
     
   if ( argc >= 2 )
     path_topmost = argv[1];
-  
+    
   /*
   DirTreeBuilder::flag_breadth_first_search = false;
   */
   
   try
   {
-    DirTreeBuilder  obj( path_topmost );
-    obj
-      .build()
-      .print();
+    DirTreeBuilder  obj_dtb( path_topmost );
+    obj_dtb
+      .build();
+      
+    std::shared_ptr<MassCounterOfLines>  obj_mcol_ptr
+      = std::make_shared<MassCounterOfLines_WithThreads> 
+          ( & obj_dtb );
+    ( *obj_mcol_ptr )
+      .setup_data_structures()
+      .count()
+      .report_brief();
   }
   catch ( Dir_IO_Exception &  obj_exc )
   {
     cout << endl << obj_exc.what() << endl;
     return 1;
   }
-    
+  
   return 0;
 }

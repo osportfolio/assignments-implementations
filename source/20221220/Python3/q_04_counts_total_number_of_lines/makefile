@@ -2,7 +2,7 @@ name_script   := create_analyze_hierarchy_in_Python.py
 dname_content := text_files
 
 path_impl_cpp := \
-  ../../C++/q_04_counts_total_number_of_lines/_ignore_obj/line_count_report.cc.elf
+  ../../C++/q_04_counts_total_number_of_lines/_ignore_obj/line_count_report__with_threads.cc.elf
 path_analyzed := \
   ./text_files
   

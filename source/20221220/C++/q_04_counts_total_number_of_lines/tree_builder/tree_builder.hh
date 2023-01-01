@@ -172,10 +172,11 @@ public:
   )
   :
   path_topmost_
-    (path_topmost) ,
-  node_topmost_ptr_
-    ( std::make_shared<DirTreeNode>( path_topmost ) )
-  {}
+    (path_topmost)
+  {
+    node_topmost_ptr_
+     = std::make_shared<DirTreeNode>( path_topmost );
+  }
   
   ~LocalClassTypeName
   ()

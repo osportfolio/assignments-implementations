@@ -268,5 +268,36 @@ namespace dir_utils
     return  *this;
   } // function - report
   
+  MassCounterOfLines &
+  MassCounterOfLines
+    ::report_brief
+  ()
+  {
+    using namespace std;
+    
+    unsigned int  
+      total_no_lines = 0 ,
+      total_no_lines_blank = 0 ;
+    
+    for ( auto & item : lcic_vec_ )
+    {
+      total_no_lines 
+        += item.no_lines;
+      total_no_lines_blank
+        += item.no_lines_blank;
+    }
+    
+    cout << endl;
+    cout 
+      << "Total Number of Files :" << endl
+      << "  " << lcic_vec_.size() << endl
+      << "Total Number of Lines :" << endl
+      << "  " << total_no_lines << endl
+      << "Total Number of Blank Lines :" << endl
+      << "  " << total_no_lines_blank << endl;
+    
+    return *this;
+  } // function - report_brief
+  
 } // namespace dir_utils
 } // namespace os_core

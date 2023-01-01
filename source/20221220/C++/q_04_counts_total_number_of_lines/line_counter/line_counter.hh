@@ -66,7 +66,7 @@ public:
       MassCounterOfLines
    
 // member variables
-private:
+protected:
   
   DirTreeBuilder *  
     builder_;
@@ -87,6 +87,7 @@ public:
     lcic_vec_.clear();
   }
   
+  virtual
   ~LocalClassTypeName
   ()
   {}
@@ -117,12 +118,17 @@ public:
   setup_data_structures
   ();
   
+  virtual
   LocalClassType &
   count
   ();
   
   LocalClassType &
   report
+  ();
+  
+  LocalClassType &
+  report_brief
   ();
   
 #undef  LocalClassTypeName
