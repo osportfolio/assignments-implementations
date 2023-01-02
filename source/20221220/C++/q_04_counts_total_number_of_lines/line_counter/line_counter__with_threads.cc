@@ -13,13 +13,6 @@
 
 #include <thread>
 #include <vector>
-#include <algorithm>
-#include <fstream>
-#include <sstream>
-#include <iostream>
-#include <iomanip>
-#include <string>
-#include <cstring>
 
 namespace os_core
 {
