@@ -171,3 +171,17 @@ help : force_look
 
 force_look :
 	@true;
+
+.PHONY : default
+.PHONY : fromscratch
+.PHONY : geninfo
+.PHONY : mkdirtarget
+.PHONY : clean
+.PHONY : help
+.PHONY : force_look
+.PHONY : run__line_count_report__with_OpenMP.cc.elf
+.PHONY : ldd__line_count_report__with_OpenMP.cc.elf
+.PHONY : run__line_count_report__with_threads.cc.elf
+.PHONY : ldd__line_count_report__with_threads.cc.elf
+.PHONY : run__list_directory_contents.cc.elf
+.PHONY : ldd__list_directory_contents.cc.elf

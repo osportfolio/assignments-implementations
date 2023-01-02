@@ -1,4 +1,10 @@
 
+########################################
+# Intermediary Makefile                #
+#                                      #
+# Communicates call to subdirectories. #
+########################################
+
 include info_local.mk
 
 default : force_look
@@ -33,3 +39,9 @@ help : force_look
 
 force_look :
 	@true;
+
+.PHONY : default
+.PHONY : geninfo
+.PHONY : clean
+.PHONY : help
+.PHONY : force_look

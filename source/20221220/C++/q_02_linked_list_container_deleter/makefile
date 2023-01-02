@@ -150,3 +150,13 @@ help : force_look
 
 force_look :
 	@true;
+
+.PHONY : default
+.PHONY : fromscratch
+.PHONY : geninfo
+.PHONY : mkdirtarget
+.PHONY : clean
+.PHONY : help
+.PHONY : force_look
+.PHONY : run__demo_of_sll_wrapper_in_CPP.cc.elf
+.PHONY : ldd__demo_of_sll_wrapper_in_CPP.cc.elf

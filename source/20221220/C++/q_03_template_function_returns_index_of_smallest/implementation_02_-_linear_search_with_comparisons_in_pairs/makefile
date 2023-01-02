@@ -97,3 +97,13 @@ help : force_look
 
 force_look :
 	@true;
+
+.PHONY : default
+.PHONY : fromscratch
+.PHONY : geninfo
+.PHONY : mkdirtarget
+.PHONY : clean
+.PHONY : help
+.PHONY : force_look
+.PHONY : run__test_smallest.cc.elf
+.PHONY : ldd__test_smallest.cc.elf

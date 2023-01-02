@@ -246,3 +246,19 @@ help : force_look
 
 force_look :
 	@true;
+
+.PHONY : default
+.PHONY : fromscratch
+.PHONY : geninfo
+.PHONY : mkdirtarget
+.PHONY : clean
+.PHONY : help
+.PHONY : force_look
+.PHONY : run__demo_calling_each_version_of_updaters.cc.elf
+.PHONY : ldd__demo_calling_each_version_of_updaters.cc.elf
+.PHONY : run__demo_with_random_integers.cc.elf
+.PHONY : ldd__demo_with_random_integers.cc.elf
+.PHONY : run__prng_test.cc.elf
+.PHONY : ldd__prng_test.cc.elf
+.PHONY : run__randomized_test.cc.elf
+.PHONY : ldd__randomized_test.cc.elf

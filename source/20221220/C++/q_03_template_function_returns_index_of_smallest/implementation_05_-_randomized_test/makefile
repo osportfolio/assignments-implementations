@@ -168,3 +168,17 @@ help : force_look
 
 force_look :
 	@true;
+
+.PHONY : default
+.PHONY : fromscratch
+.PHONY : geninfo
+.PHONY : mkdirtarget
+.PHONY : clean
+.PHONY : help
+.PHONY : force_look
+.PHONY : run__demo_calling_all_implementations.cc.elf
+.PHONY : ldd__demo_calling_all_implementations.cc.elf
+.PHONY : run__randomized_test.cc.elf
+.PHONY : ldd__randomized_test.cc.elf
+.PHONY : run__randomized_test__with_ccc.cc.elf
+.PHONY : ldd__randomized_test__with_ccc.cc.elf
