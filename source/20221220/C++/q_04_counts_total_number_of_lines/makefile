@@ -13,6 +13,7 @@ include config.mk
 obj_subdir := \
   _ignore_obj/dir_info_extraction/dir_info.cc.o \
   _ignore_obj/line_counter/line_counter.cc.o \
+  _ignore_obj/line_counter/line_counter__with_OpenMP.cc.o \
   _ignore_obj/line_counter/line_counter__with_threads.cc.o \
   _ignore_obj/tree_builder/tree_builder.cc.o
 

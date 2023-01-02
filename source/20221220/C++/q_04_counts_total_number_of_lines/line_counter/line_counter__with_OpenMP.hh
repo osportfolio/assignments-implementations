@@ -1,27 +1,23 @@
 /*
- * Class definition for line counter class
- * with 'std::thread'.
+ * OpenMP implementation for parallelizing
+ * line counts. Class definition in this file.
  * */
 
 /*
  * Worked on this code on
- *   Jan  1, 2023 / Sun
+ *   Jan  2, 2023 / Mon
  * */
 
 #pragma once
 
 #include "line_counter.hh"
 
-/*
-#include <mutex>
-*/
-
 namespace os_core
 {
 namespace dir_utils
 {
   
-class MassCounterOfLines_WithThreads
+class MassCounterOfLines_WithOpenMP
 :
 public
 MassCounterOfLines
@@ -29,17 +25,10 @@ MassCounterOfLines
 // typedefs
 public:
   using LocalClassType
-    = MassCounterOfLines_WithThreads;
+    = MassCounterOfLines_WithOpenMP;
 #define LocalClassTypeName \
-      MassCounterOfLines_WithThreads
+      MassCounterOfLines_WithOpenMP
       
-// member variables
-private:
-/*  
-  std::mutex  
-    mtx_;
-*/
-
 // ctor dtor
 public:
   
@@ -63,9 +52,9 @@ public:
   LocalClassType &
   count
   ();
-     
+      
 #undef  LocalClassTypeName
-}; // class MassCounterOfLines_WithThreads
+}; // class MassCounterOfLines_WithOpenMP
   
 } // namespace dir_utils
 } // namespace os_core

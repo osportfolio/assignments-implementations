@@ -11,10 +11,11 @@
  * */
 
 #include "dir_info.hh"
-#include "line_counter.hh"
+#include "line_counter__with_OpenMP.hh"
 
 #include <cstdlib>
 #include <iostream>
+#include <memory>
 
 int
 main( int argc, char *argv[] )
@@ -33,23 +34,28 @@ main( int argc, char *argv[] )
   DirTreeBuilder::flag_breadth_first_search = false;
   */
   
+  std::shared_ptr<DirTreeBuilder>
+    obj_dtb_ptr;
+    
   try
   {
-    DirTreeBuilder  obj_dtb( path_topmost );
-    obj_dtb
-      .build();
-      
-    MassCounterOfLines obj_mcol ( & obj_dtb );
-    obj_mcol
-      .setup_data_structures()
-      .count()
-      .report();
+    obj_dtb_ptr
+      = std::make_shared<DirTreeBuilder> ( path_topmost );
+    obj_dtb_ptr
+      ->build();
   }
   catch ( Dir_IO_Exception &  obj_exc )
   {
     cout << endl << obj_exc.what() << endl;
     return 1;
   }
+  
+  MassCounterOfLines_WithOpenMP 
+    obj_mcol ( obj_dtb_ptr.get() );
+  obj_mcol
+    .setup_data_structures()
+    .count()
+    .report();
   
   return 0;
 }

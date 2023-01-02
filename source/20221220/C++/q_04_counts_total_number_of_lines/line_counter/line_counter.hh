@@ -121,8 +121,8 @@ public:
   virtual
   LocalClassType &
   count
-  ();
-  
+  () = 0;
+
   LocalClassType &
   report
   ();
@@ -130,6 +130,15 @@ public:
   LocalClassType &
   report_brief
   ();
+  
+// member functions
+protected:
+  
+  void
+  count_lines_for_single_file
+  (
+    unsigned int  index
+  );
   
 #undef  LocalClassTypeName
 };

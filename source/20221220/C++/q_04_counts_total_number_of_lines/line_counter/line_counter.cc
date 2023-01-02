@@ -19,11 +19,6 @@
 #include <string>
 #include <cstring>
 
-/*
- * Utilizing OpenMP for multithreading.
- * */
-#include <omp.h>
-
 namespace os_core
 {
 namespace dir_utils
@@ -68,95 +63,77 @@ namespace dir_utils
    *   https://stackoverflow.com/questions/116038/how-do-i-read-an-entire-file-into-a-stdstring-in-c
    *   https://stackoverflow.com/questions/10058606/splitting-a-string-by-a-character
    * */
-  MassCounterOfLines &
+  void
   MassCounterOfLines
-    ::count
-  ()
+    ::count_lines_for_single_file
+  (
+    unsigned int  index
+  )
   {
-    using namespace std;
-    
-    int thread_index;
-    
-    /*
-     * OpenMP for multithreading.
-     * */
-    #pragma omp parallel private(thread_index)
-    {
-    #pragma omp for schedule(static) nowait
-    for ( unsigned int
-            kk = 0 ;
-            kk < lcic_vec_.size() ;
-          ++kk
-        )
-    {
-      auto & item = lcic_vec_[kk];
+    auto & item = lcic_vec_[index];
       
-      thread_index      = omp_get_thread_num();
-      item.thread_index = thread_index;
-      
-      std::ifstream  file_in ( item.file_path );
-      if ( file_in )
-      {
-        /*
-         * Read whole file into a string.
-         * */
-        std::ostringstream  
-          ss;
-        ss << file_in.rdbuf();
-        std::string  
-          content_str = ss.str();
+    std::ifstream  file_in ( item.file_path );
+    if ( file_in )
+    {
+      /*
+       * Read whole file into a string.
+       * */
+      std::ostringstream  
+        ss;
+      ss << file_in.rdbuf();
+      std::string  
+        content_str = ss.str();
           
-        /*
-         * Total number of lines in file is
-         * "1 + cnt".
-         * */
-        unsigned int cnt
-          = std::count_if
-              (
-                content_str.c_str() ,
-                content_str.c_str()
-                  + strlen( content_str.c_str() ),
-                []  ( const char c ) -> bool
-                    { return ( c == '\n' ); }
-              );
-        item.no_lines = 1 + cnt;
+      /*
+       * Total number of lines in file is
+       * "1 + cnt".
+       * */
+      unsigned int cnt
+        = std::count_if
+            (
+              content_str.c_str() ,
+              content_str.c_str()
+                + strlen( content_str.c_str() ),
+              []  ( const char c ) -> bool
+                  { return ( c == '\n' ); }
+            );
+      item.no_lines = 1 + cnt;
         
-        /*
-         * Count the number of blank lines.
-         * */
-        cnt = 0;
-        std::stringstream  ss_for_blank;
-        ss_for_blank << content_str;
-        std::string  segment;
-        while ( std::getline(ss_for_blank, segment, '\n') )
-        {
-          if ( segment == std::string( "" ) )
-            ++cnt;
-        } // while
-        /*
-         * A fix for files ending with '\n'.
-         * */
-        if ( content_str.c_str()
-               [ -1 + strlen( content_str.c_str() ) ] == '\n' )
-          ++cnt;
-        item.no_lines_blank = cnt;
-        
-        /*
-         * Close.
-         * */
-        file_in.close();
-      } // if
-      else
+      /*
+       * Count the number of blank lines.
+       * */
+      cnt = 0;
+      std::stringstream  ss_for_blank;
+      ss_for_blank << content_str;
+      std::string  segment;
+      while ( std::getline(ss_for_blank, segment, '\n') )
       {
-        /*
-        cout << "Could not open file." << endl;
-        */
-      } // else
-    } // for item
-    } // pragma omp
-    
-    return  *this;
-  } // function - count
+        if ( segment == std::string( "" ) )
+          ++cnt;
+      } // while
+      /*
+       * A fix for files ending with '\n'.
+       * */
+      if ( content_str.c_str()
+             [ -1 + strlen( content_str.c_str() ) ] == '\n' )
+        ++cnt;
+      item.no_lines_blank = cnt;
+        
+      /*
+       * Close.
+       * */
+      file_in.close();
+    } // if
+    else
+    {
+      /*
+      cout << "Could not open file." << endl;
+      */
+    } // else
+      
+    return;
+  } // function - count_lines_for_single_file
+  
   
   /*
    * Used to report findings.

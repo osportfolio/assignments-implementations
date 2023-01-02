@@ -39,7 +39,10 @@ main( int argc, char *argv[] )
     DirTreeBuilder  obj_dtb( path_topmost );
     obj_dtb
       .build();
-      
+    
+    /*
+     * Shared pointer managing polymorphic pointer.
+     * */
     std::shared_ptr<MassCounterOfLines>  obj_mcol_ptr
       = std::make_shared<MassCounterOfLines_WithThreads> 
           ( & obj_dtb );
