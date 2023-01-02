@@ -16,11 +16,13 @@ obj_subdir := \
 
 obj_topdir := \
   _ignore_obj/./demo_calling_all_implementations.cc.o \
-  _ignore_obj/./randomized_test.cc.o
+  _ignore_obj/./randomized_test.cc.o \
+  _ignore_obj/./randomized_test__with_ccc.cc.o
 
 exe_topdir := \
   _ignore_obj/./demo_calling_all_implementations.cc.elf \
-  _ignore_obj/./randomized_test.cc.elf
+  _ignore_obj/./randomized_test.cc.elf \
+  _ignore_obj/./randomized_test__with_ccc.cc.elf
 
 default : $(exe_topdir)  force_look
 
@@ -136,6 +138,12 @@ run__randomized_test.cc.elf : force_look
 
 ldd__randomized_test.cc.elf : force_look
 	@ldd _ignore_obj/./randomized_test.cc.elf
+
+run__randomized_test__with_ccc.cc.elf : force_look
+	@_ignore_obj/./randomized_test__with_ccc.cc.elf
+
+ldd__randomized_test__with_ccc.cc.elf : force_look
+	@ldd _ignore_obj/./randomized_test__with_ccc.cc.elf
 
 help : force_look
 	@echo ""

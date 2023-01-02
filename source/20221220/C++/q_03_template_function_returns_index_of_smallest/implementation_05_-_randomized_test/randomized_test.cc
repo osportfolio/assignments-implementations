@@ -11,7 +11,7 @@
  * */
 
 #include "index_of_smallest_testing.hh"
-#include "random_sequence.hh"
+#include "random_sequence_derived.hh"
 
 #include <iostream>
 #include <memory>

@@ -9,7 +9,6 @@
  * */
 
 #include "index_of_smallest_testing.hh"
-#include "random_sequence.hh"
 
 int
 main (void)
@@ -17,8 +16,6 @@ main (void)
   using namespace std;
   using namespace 
     index_of_smallest_testing;
-  using namespace 
-    os_core::random_sequence_generators;
   
   int int_array[4] = { 1 , -7 , 0 , 3 };
   

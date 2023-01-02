@@ -378,13 +378,24 @@ public:
            * Check value. Making use of only the less than
            * operator in case of restrictions.
            * */
-          if  ( ! 
+          if  
+              ( ! 
                 (
                   ( value_found        < value_found_by_ref )
                   ||
                   ( value_found_by_ref < value_found )
                 )
               )
+              
+              /*
+               * The '==' check does not compile if the operator
+               * overload is not available.
+               * */
+              /*
+              (
+                value_found == value_found_by_ref
+              )
+              */
             ++( func_ptr_to_results_map_[ func_ptr_ ]
                   . no_success_in_values );
           else
