@@ -116,5 +116,4 @@ main (void)
     << endl;
     
   return 0;
-  return 0;
 }

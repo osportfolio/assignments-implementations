@@ -118,6 +118,8 @@ SinglyLinkedList_insertAtIndex
    * */
   if ( index > SinglyLinkedList_size( ptr_to_ptr ) )
     return;
+  if ( index < 0 )
+    return;
   
   /*
    * Allocate memory, set data.
@@ -230,6 +232,8 @@ SinglyLinkedList_removeAtIndex
    * */
   if ( index >= SinglyLinkedList_size( ptr_to_ptr ) )
     return NULL;
+  if ( index <  0 )
+    return NULL;
   
   /*
    * List is empty.
@@ -287,7 +291,7 @@ SinglyLinkedList_pop_back
     SinglyLinkedList_removeAtIndex
       (
         ptr_to_ptr ,
-        SinglyLinkedList_size( ptr_to_ptr )
+        -1 + SinglyLinkedList_size( ptr_to_ptr )
       );
 }
 
@@ -333,6 +337,9 @@ SinglyLinkedList_getAtIndex
    * */
   if ( index >= SinglyLinkedList_size( ptr_to_ptr ) )
     return -1;
+  if ( index <  0 )
+    return -1;
+  
   
   unsigned int cnt = 0;
   SLL_Node *  ptr_temp = *ptr_to_ptr;
