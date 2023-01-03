@@ -11,6 +11,7 @@
 include config.mk
 
 obj_subdir := \
+  _ignore_obj/durations/durations.cc.o \
   _ignore_obj/randomization/prng_utilities.cc.o \
   _ignore_obj/testing_equipment/rng_engine_static.cc.o
 
@@ -32,6 +33,7 @@ geninfo : mkdirtarget  force_look
 
 mkdirtarget : force_look
 	@mkdir -p  _ignore_obj  &&  cd _ignore_obj  &&  rm -rf ./*  && \
+mkdir -p  durations  && \
 mkdir -p  implementations  && \
 mkdir -p  randomization  && \
 mkdir -p  testing_equipment
@@ -63,7 +65,23 @@ _ignore_obj/./%.cc.o : ././%.cc
 -MT '$@' \
 -MF _ignore_obj/./$*.cc.d \
 -I. \
--I./implementations  -I./randomization  -I./testing_equipment \
+-I./durations  -I./implementations  -I./randomization  -I./testing_equipment \
+$(dep_include) \
+-c $< -o $@
+
+_ignore_obj/durations/%.cc.o : ./durations/%.cc
+	@echo ""
+	@echo "Source : $<"
+	@echo "Target : $@"
+	@echo ""
+	@echo "$(CXX)    $*.cc"
+	@echo ""
+	@$(CXX)  $(CXXFLAGS) \
+-MP -MMD \
+-MT '$@' \
+-MF _ignore_obj/durations/$*.cc.d \
+-I. \
+-I./durations \
 $(dep_include) \
 -c $< -o $@
 
@@ -116,6 +134,7 @@ $(dep_include) \
 -c $< -o $@
 
 -include $(wildcard _ignore_obj/./*.cc.d)
+-include $(wildcard _ignore_obj/durations/*.cc.d)
 -include $(wildcard _ignore_obj/implementations/*.cc.d)
 -include $(wildcard _ignore_obj/randomization/*.cc.d)
 -include $(wildcard _ignore_obj/testing_equipment/*.cc.d)

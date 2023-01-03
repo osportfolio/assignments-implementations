@@ -14,6 +14,7 @@
 #pragma once
 
 #include "implementations/index_of_smallest_in_CPP.hh"
+#include "durations/durations.hh"
 #include "rng_engine_static.hh"
 #include "random_sequence_base.hh"
 
@@ -51,6 +52,10 @@ struct ResultsInfoHolder
     no_failure_in_values ;
   double
     rate_in_values ;
+    
+  double
+    sec_duration_total ,
+    sec_duration_average ;
   
   ResultsInfoHolder  ()
   {
@@ -75,6 +80,9 @@ struct ResultsInfoHolder
     no_success_in_values = 0;
     no_failure_in_values = 0;
     rate_in_values  = 0.;
+    
+    sec_duration_total   = 0.;
+    sec_duration_average = 0.;
     
     return *this;
   } // function - reset
@@ -304,10 +312,8 @@ public:
     cnt_func = 0;
     func_ptr_to_results_map_.clear();
     for ( auto * func_ptr_ : cpp_func_ptr_vec_ )
-      if ( cnt_func++ 
-             != get_index_of_func_ptr_selected_as_ref() )
-        func_ptr_to_results_map_[ func_ptr_ ]
-          = ResultsInfoHolder();
+      func_ptr_to_results_map_[ func_ptr_ ]
+        = ResultsInfoHolder();
     
     /*
      * Get reference to rng engine.
@@ -344,9 +350,18 @@ public:
       /*
        * Record results computed by the reference function.
        * */
+      auto t_start
+        = os_core::chrono_utils::tic();
       auto index_found_by_ref
         = cpp_func_ptr_vec_[index_of_func_ptr_selected_as_ref_]
             ( array_sh_ptr.get() , size_of_array );
+      double sec_duration
+        = os_core::chrono_utils::toc( t_start );
+      func_ptr_to_results_map_
+        [ cpp_func_ptr_vec_[index_of_func_ptr_selected_as_ref_] ] 
+          . sec_duration_total
+            += sec_duration;
+            
       auto value_found_by_ref
         = array_sh_ptr.get()[index_found_by_ref];
         
@@ -359,10 +374,21 @@ public:
         if ( cnt_func++ 
                != get_index_of_func_ptr_selected_as_ref() )
         {
+          t_start
+            = os_core::chrono_utils::tic();
           auto index_found
             = func_ptr_( array_sh_ptr.get() , size_of_array );
+          sec_duration
+            = os_core::chrono_utils::toc( t_start );
+            
           auto value_found
             = array_sh_ptr.get()[index_found];
+          
+          /*
+           * Record 'sec_duration'.
+           * */
+          func_ptr_to_results_map_[ func_ptr_ ] . sec_duration_total
+            += sec_duration;
             
           /*
            * Check index.
@@ -406,10 +432,18 @@ public:
     } // for kk_ensemble
     
     /*
-     * Compute rates.
+     * Compute rates and average durations.
      * */
     cnt_func = 0;
     for ( auto * func_ptr_ : cpp_func_ptr_vec_ )
+    {
+      func_ptr_to_results_map_[ func_ptr_ ] 
+        . sec_duration_average
+          = func_ptr_to_results_map_[ func_ptr_ ] 
+              . sec_duration_total
+            /
+            ensemble_volume_;
+      
       if ( cnt_func++ 
              != get_index_of_func_ptr_selected_as_ref() )
       {
@@ -435,6 +469,7 @@ public:
             )
             * 100.;
       } // if
+    } // for func_ptr_
           
     return *this;
   } // function - run_randomized_test
@@ -476,7 +511,7 @@ public:
             CPPFunctionPtrType    
               func_ptr ,
             bool 
-              flag_print_name_only = false
+              flag_account_for_reference = false
           ) -> void
           {
             auto   func_name
@@ -484,12 +519,14 @@ public:
             cout 
               << setw( width_max + 2 ) << func_name;
               
-            if ( ! flag_print_name_only )
-            {
-              auto & results
-                = ( this->func_ptr_to_results_map_ )[func_ptr];
+            auto & results
+              = ( this->func_ptr_to_results_map_ )[func_ptr];
+            unsigned int no_cols_before_duration
+              = 6;
               
-              cout << fixed
+            if ( ! flag_account_for_reference )
+            {
+              cout << std::fixed
                 << setw( width_heading )
                   << results.no_success_in_indices
                 << setw( width_heading )
@@ -503,6 +540,16 @@ public:
                 << setw( width_heading ) << setprecision(2)
                   << results.rate_in_values;
             } // if
+            else
+            {
+              cout
+                << setw( width_heading * no_cols_before_duration )
+                << "";
+            } // else
+            
+            cout << std::scientific
+              << setw( width_heading ) << setprecision(2)
+                << results.sec_duration_average;
             
             cout << endl;
             return;
@@ -511,10 +558,10 @@ public:
     cout << endl;
     fh_print_column_headings
       ( { "INDEX" , "INDEX" , "INDEX" , 
-          "VALUE" , "VALUE" , "VALUE" } );
+          "VALUE" , "VALUE" , "VALUE" , "AVERAGE" } );
     fh_print_column_headings
       ( { "SUCCESS" , "FAILURE" , "RATE" , 
-          "SUCCESS" , "FAILURE" , "RATE" } );
+          "SUCCESS" , "FAILURE" , "RATE" , "SECONDS" } );
       
     unsigned int
       cnt_func = 0;
