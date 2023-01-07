@@ -126,7 +126,7 @@ class RandomDirHierarchyCreator(object):
     """
     
     node_topmost \
-      = DirTreeNode( options['dname_topmost'] )
+      = DirTreeNode( self.options['dname_topmost'] )
     self.node_topmost \
       = node_topmost
     nodes_processed \
@@ -134,9 +134,9 @@ class RandomDirHierarchyCreator(object):
     while len(nodes_processed) > 0:
       node_current = nodes_processed.pop(0)
       depth_c , path_c = node_current.get_depth_and_path()
-      if depth_c < options['depth_max']:
+      if depth_c < self.options['depth_max']:
         subdirs_list , files_list \
-          = obj.get_random_lists_of_subdirs_and_files()
+          = self.get_random_lists_of_subdirs_and_files()
         """
           Register files.
         """
@@ -169,10 +169,10 @@ class RandomDirHierarchyCreator(object):
       written.
     """
     
-    if os.path.isdir( './%s' % options['dname_topmost'] ):
+    if os.path.isdir( './%s' % self.options['dname_topmost'] ):
       raise OSError( 
         'Directory \'./%s\' already exists. Cannot continue.' % 
-        options['dname_topmost'] )
+        self.options['dname_topmost'] )
     
     nodes_processed \
       = [ self.node_topmost ]
@@ -283,10 +283,10 @@ class LinesCounter(object):
     self.options = cp.copy( options )
   
   def count(self):
-    if not os.path.isdir( './%s' % options['dname_topmost'] ):
+    if not os.path.isdir( './%s' % self.options['dname_topmost'] ):
       raise OSError( 
         'Directory \'./%s\' does not exist. Cannot continue.' % 
-        options['dname_topmost'] )
+        self.options['dname_topmost'] )
     
     path_topmost \
       = './%s' % self.options['dname_topmost']
